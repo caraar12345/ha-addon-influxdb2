@@ -19,7 +19,7 @@ RUN \
     && ARCH="${BUILD_ARCH}" \
     && if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="arm64"; fi \
     \
-    && curl -J -L -o /tmp/influxdb2.deb \
+    && curl -J -L -v -o /tmp/influxdb2.deb \
         "https://dl.influxdata.com/influxdb/releases/v${INFLUXDB}/influxdb2_${INFLUXDB}-1_${ARCH}.deb" \
     \
     && dpkg --install /tmp/influxdb2.deb \
@@ -33,7 +33,6 @@ RUN \
     && chmod +x /etc/cont-init.d/influxdb.sh \
     && chmod +x /etc/services.d/influxdb/run \
     && chmod +x /etc/services.d/influxdb/finish
-
 
 # Build arguments
 ARG BUILD_ARCH
