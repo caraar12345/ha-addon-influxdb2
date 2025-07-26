@@ -1,4 +1,5 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:6.2.7
+ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:7.8.3
+ARG INFLUXDB=2.7.12
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
@@ -14,12 +15,12 @@ COPY rootfs /
 RUN \
     export DEBIAN_FRONTEND=noninteractive \
     && apt update \
+    && apt upgrade -y \
     && ARCH="${BUILD_ARCH}" \
     && if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="arm64"; fi \
     \
-    && INFLUXDB="2.7.0" \
     && curl -J -L -o /tmp/influxdb2.deb \
-        "https://dl.influxdata.com/influxdb/releases/influxdb2-${INFLUXDB}-${ARCH}.deb" \
+        "https://dl.influxdata.com/influxdb/releases/v${INFLUXDB}/influxdb2_${INFLUXDB}-1_${ARCH}.deb" \
     \
     && dpkg --install /tmp/influxdb2.deb \
     \
